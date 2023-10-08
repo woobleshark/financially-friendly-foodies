@@ -393,6 +393,7 @@
 "Assets/Scripts/IngredientType.cs"
 "Assets/Scripts/InventoryItem.cs"
 "Assets/Scripts/Recipe.cs"
+"Assets/Scripts/UIManager.cs"
 -langversion:9.0
 
 /deterministic

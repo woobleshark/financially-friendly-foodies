@@ -1,4 +1,5 @@
 using System.Collections;
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -10,6 +11,8 @@ public class DataManager : MonoBehaviour
     public TextMeshProUGUI dayNumText;
     public TextMeshProUGUI moneyNumText;
     public List<InventoryItem> inventoryItems = new List<InventoryItem>();
+
+    public event Action OnInventoryChanged;
 
     public void Initialize()
     {
@@ -55,6 +58,12 @@ public class DataManager : MonoBehaviour
 
     /** INVENTORY MANAGER **/
 
+    public int GetItemsInInventory(string name)
+    {
+        InventoryItem item = inventoryItems.Find(i => i.name == name);
+        return item != null ? item.quantity : 0;
+    }
+
     public void ChangeItemsInInventory(IngredientType ingredientType, int quantity)
     {
         // Check if the ingredient type already exists in the inventory.
@@ -68,15 +77,19 @@ public class DataManager : MonoBehaviour
         else
         {
             // If it doesn't exist, create a new InventoryItem.
-            GameObject newGameObject = new GameObject(ingredientType.ToString());
+            GameObject newGameObject = new GameObject(Enum.GetName(typeof(IngredientType), ingredientType));
             InventoryItem newItem = newGameObject.AddComponent<InventoryItem>();
             newItem.type = ingredientType;
             newItem.quantity = quantity;
+            newItem.itemName = Enum.GetName(typeof(IngredientType), ingredientType);
 
             inventoryItems.Add(newItem);
         }
 
         UpdateGameManagerInventory();
+
+        // Trigger an event to notify UI updates.
+        OnInventoryChanged?.Invoke();
     }
 
     // Stores inventory in GameManager, which transfers between scenes
