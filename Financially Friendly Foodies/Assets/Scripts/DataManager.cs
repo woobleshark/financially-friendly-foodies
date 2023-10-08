@@ -42,11 +42,11 @@ public class DataManager : MonoBehaviour
 
     public void UpdateDayCounter()
     {
-            // Increment the day number.
-            gameManager.dayNumber++;
+        // Increment the day number.
+        gameManager.dayNumber++;
 
-            // Update any UI or text elements displaying the day number.
-            UpdateDayCounterUI();
+        // Update any UI or text elements displaying the day number.
+        UpdateDayCounterUI();
     }
 
     public void UpdateDayCounterUI()

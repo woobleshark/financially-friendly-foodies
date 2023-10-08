@@ -1,12 +1,19 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+
+public enum GameState
+{
+    MainMenu,
+    OtherMenu,
+    Cooking,
+    Shopping,
+    GameOver
+}
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+    public GameState CurrentState { get; private set; }
 
     public int dayNumber;
     public int playerMoney;
@@ -27,5 +34,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Add methods to modify and retrieve game data.
+    private void Start()
+    {
+        SetGameState(GameState.MainMenu);
+    }
+
+    public void SetGameState(GameState newState)
+    {
+        CurrentState = newState;
+    }
 }

@@ -1,10 +1,14 @@
 using Unity.VisualScripting;
+using System;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class IngredientSpawner : MonoBehaviour
 {
     public GameObject ingredientPrefab; // Assign your ingredient prefab in the Inspector.
     public GameObject plate;
+
+    private GameManager gameManager;
 
     private GameObject currentIngredient;
     private bool isDragging = false;
@@ -16,6 +20,7 @@ public class IngredientSpawner : MonoBehaviour
 
     private void Start()
     {
+        gameManager = GameManager.instance;
         Collider2D collider = GetComponent<Collider2D>();
 
         if (collider != null)
@@ -42,51 +47,55 @@ public class IngredientSpawner : MonoBehaviour
 
     private void Update()
     {
-        // Check for mouse down to spawn a new ingredient prefab.
-        if (Input.GetMouseButtonDown(0))
+        if (gameManager != null && gameManager.CurrentState == GameState.Cooking)
         {
-            if (IsMouseWithinBounds(itemBounds))
-            {
-                SpawnIngredient();
-            }
-        }
-
-        // Continue with drag-and-drop logic if an ingredient is spawned.
-        if (currentIngredient != null)
-        {
+            // Check for mouse down to spawn a new ingredient prefab.
             if (Input.GetMouseButtonDown(0))
             {
-                // Calculate the offset between the mouse click position and the ingredient's position.
-                offset = currentIngredient.transform.position - Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                isDragging = true;
+                if (IsMouseWithinBounds(itemBounds))
+                {
+                    SpawnIngredient();
+                }
             }
 
-            if(Input.GetMouseButtonUp(0))
+            // Continue with drag-and-drop logic if an ingredient is spawned.
+            if (currentIngredient != null)
             {
-                isDragging = false;
-
-                // Check if the ingredient is dropped outside the plate's bounds.
-
-                if (!IsMouseWithinBounds(boxBounds))
+                if (Input.GetMouseButtonDown(0))
                 {
-                    DataManager.Instance.ChangeItemsInInventory(ingredientPrefab.GetComponent<Ingredient>().type, -1);
+                    // Calculate the offset between the mouse click position and the ingredient's position.
+                    offset = currentIngredient.transform.position - Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    isDragging = true;
                 }
 
-                if (!IsMouseWithinBounds(plateBounds))
+                if (Input.GetMouseButtonUp(0))
                 {
-                    Destroy(currentIngredient);
+                    isDragging = false;
+
+                    // Check if the ingredient is dropped outside the plate's bounds.
+
+                    if (!IsMouseWithinBounds(boxBounds))
+                    {
+                        DataManager.Instance.ChangeItemsInInventory(ingredientPrefab.GetComponent<Ingredient>().type, -1);
+                    }
+
+                    if (!IsMouseWithinBounds(plateBounds))
+                    {
+                        Destroy(currentIngredient);
+                    }
+
+                    currentIngredient = null;
                 }
 
-                currentIngredient = null;
-            }
-
-            if (isDragging)
-            {
-                // Update the ingredient's position based on the mouse position.
-                Vector3 newPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition) + offset;
-                currentIngredient.transform.position = new Vector3(newPosition.x, newPosition.y, currentIngredient.transform.position.z);
+                if (isDragging)
+                {
+                    // Update the ingredient's position based on the mouse position.
+                    Vector3 newPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition) + offset;
+                    currentIngredient.transform.position = new Vector3(newPosition.x, newPosition.y, currentIngredient.transform.position.z);
+                }
             }
         }
+        
     }
 
     Bounds ExpandBounds(Bounds originalBounds, float expansionAmount)
