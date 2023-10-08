@@ -2,17 +2,20 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+
+[Serializable]
+public class IngredientDisplay
+{
+    public GameObject gameObject;
+    public TextMeshProUGUI textDisplay;
+    public IngredientType type;
+}
 
 public class UIManager : MonoBehaviour
 {
-    public TextMeshProUGUI item1QuantityText;
-    public TextMeshProUGUI item2QuantityText;
-    public TextMeshProUGUI item3QuantityText;
-    public TextMeshProUGUI item4QuantityText;
-    public TextMeshProUGUI item5QuantityText;
-    public TextMeshProUGUI item6QuantityText;
-    public TextMeshProUGUI item7QuantityText;
-    public TextMeshProUGUI item8QuantityText;
+    public List<IngredientDisplay> ingredientDisplayList;
 
     private DataManager dataManager; // Reference to the DataManager.
 
@@ -29,25 +32,31 @@ public class UIManager : MonoBehaviour
 
         foreach (IngredientType item in Enum.GetValues(typeof(IngredientType)))
         {
-            dataManager.ChangeItemsInInventory(item, 0);
+            dataManager.ChangeItemsInInventory(item, 10);
         }
     }
 
     private void UpdateUI()
     {
-        Debug.Log("UpdateUI called");
         // Check if the DataManager reference is available.
         if (dataManager != null)
         {
             // Update the UI Text components with the current inventory quantities.
-            item1QuantityText.text = dataManager.GetItemsInInventory("Bread").ToString();
-            item2QuantityText.text = dataManager.GetItemsInInventory("Cheese").ToString();
-            item3QuantityText.text = dataManager.GetItemsInInventory("Lettuce").ToString();
-            item4QuantityText.text = dataManager.GetItemsInInventory("Tomato").ToString();
-            item5QuantityText.text = dataManager.GetItemsInInventory("Egg").ToString();
-            item6QuantityText.text = dataManager.GetItemsInInventory("Ham").ToString();
-            item7QuantityText.text = dataManager.GetItemsInInventory("Bacon").ToString();
-            item8QuantityText.text = dataManager.GetItemsInInventory("Chicken").ToString();
+            int itemQty;
+
+            foreach (IngredientDisplay item in ingredientDisplayList)
+            {
+                itemQty = dataManager.GetItemsInInventory(Enum.GetName(typeof(IngredientType), item.type));
+                if (itemQty > 0)
+                {
+                    item.gameObject.SetActive(true);
+                    item.textDisplay.text = itemQty.ToString();
+                } else
+                {
+                    item.gameObject.SetActive(false);
+                    item.textDisplay.text = "";
+                }
+            }
         }
         else {
             Debug.LogError("DataManager not found in the scene.");
