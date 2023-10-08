@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class DataManager : MonoBehaviour
 {
+    public static DataManager Instance { get; private set; }
+
     public GameManager gameManager;
 
     public TextMeshProUGUI dayNumText;
@@ -14,8 +16,19 @@ public class DataManager : MonoBehaviour
 
     public event Action OnInventoryChanged;
 
-    public void Initialize()
+    private void Awake()
     {
+        // Ensure there is only one instance of DataManager.
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject); // Ensures that the DataManager persists across scene changes.
+        }
+        else
+        {
+            Destroy(gameObject); // Destroy any additional instances.
+        }
+
         gameManager = GameManager.instance;
 
         if (gameManager == null)

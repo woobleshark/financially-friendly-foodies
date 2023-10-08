@@ -390,6 +390,7 @@
 "Assets/Scripts/GameInitializer.cs"
 "Assets/Scripts/GameManager.cs"
 "Assets/Scripts/Ingredient.cs"
+"Assets/Scripts/IngredientSpawner.cs"
 "Assets/Scripts/IngredientType.cs"
 "Assets/Scripts/InventoryItem.cs"
 "Assets/Scripts/Recipe.cs"

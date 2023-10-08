@@ -35,7 +35,6 @@ public class GameInitializer : MonoBehaviour
             gameManager.dayNumber = 1;
             gameManager.playerMoney = 100;
 
-            dataManager.Initialize();
             dataManager.UpdateDayCounterUI();
             dataManager.UpdateMoneyCounterUI();
         }
