@@ -385,6 +385,7 @@
 -r:"Library/Bee/artifacts/200b0aE.dag/Unity.VSCode.Editor.ref.dll"
 -r:"Library/Bee/artifacts/200b0aE.dag/UnityEditor.UI.ref.dll"
 -r:"Library/Bee/artifacts/200b0aE.dag/UnityEngine.UI.ref.dll"
+"Assets/Scripts/BackgroundChanger.cs"
 "Assets/Scripts/Button_Serve.cs"
 "Assets/Scripts/Button_StartDay.cs"
 "Assets/Scripts/CookingStation.cs"
@@ -396,6 +397,7 @@
 "Assets/Scripts/InventoryItem.cs"
 "Assets/Scripts/Plate.cs"
 "Assets/Scripts/Recipe.cs"
+"Assets/Scripts/SceneChanger.cs"
 "Assets/Scripts/UIManager.cs"
 -langversion:9.0
 
