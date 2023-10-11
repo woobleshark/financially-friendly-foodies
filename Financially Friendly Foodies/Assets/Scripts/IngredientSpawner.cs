@@ -1,7 +1,5 @@
 using Unity.VisualScripting;
-using System;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class IngredientSpawner : MonoBehaviour
 {
