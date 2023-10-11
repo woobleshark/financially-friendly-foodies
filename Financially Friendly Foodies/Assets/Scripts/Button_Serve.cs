@@ -6,10 +6,9 @@ using UnityEngine.UI;
 public class Button_Serve : MonoBehaviour
 {
     public Button serveButton;
+    public CustomerManager customers;
     public Plate plate;
     public GameObject sandwich;
-
-    public float displayDuration = 1.0f;
 
     private void Start()
     {
@@ -18,7 +17,8 @@ public class Button_Serve : MonoBehaviour
 
     private void Serve()
     {
-        List<GameObject> ingredientsInsidePlate = plate.GetIngredientsInsideCollider();
+        plate.GetIngredientsInsideCollider();
+        List<GameObject> ingredientsInsidePlate = plate.ingredientsOnPlate;
 
         if (ingredientsInsidePlate.Count > 1)
         {
@@ -37,7 +37,7 @@ public class Button_Serve : MonoBehaviour
         sandwich.SetActive(true);
 
         // Wait for the specified duration.
-        yield return new WaitForSeconds(displayDuration);
+        yield return new WaitForSeconds(2.0f);
 
         // Disable the sandwich GameObject after the duration has elapsed.
         sandwich.SetActive(false);

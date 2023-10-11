@@ -10,6 +10,7 @@ public class Button_StartDay : MonoBehaviour
     public Button startButton;
     public List<GameObject> preStartList;
     public List<GameObject> postStartList;
+    public CustomerManager customers;
     public GameObject sandwich;
 
     private bool dayStarted = false;
@@ -72,6 +73,9 @@ public class Button_StartDay : MonoBehaviour
         {
             obj.SetActive(true);
         }
+
+        // Starts spawning customers
+        StartCoroutine(customers.SpawnCustomers());
 
         gameManager.SetGameState(GameState.Cooking);
     }

@@ -389,6 +389,8 @@
 "Assets/Scripts/Button_Serve.cs"
 "Assets/Scripts/Button_StartDay.cs"
 "Assets/Scripts/CookingStation.cs"
+"Assets/Scripts/CustomerManager.cs"
+"Assets/Scripts/CustomerRequest.cs"
 "Assets/Scripts/DataManager.cs"
 "Assets/Scripts/GameInitializer.cs"
 "Assets/Scripts/GameManager.cs"
